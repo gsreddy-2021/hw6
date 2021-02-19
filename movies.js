@@ -2,7 +2,7 @@
 // Once verified and signed-in, go to Settings and create a new
 // API key; in the form, indicate that you'll be using this API
 // key for educational or personal use, and you should receive
-// your new key right away.
+// your new key right away. (used kellogg.northwestern.edu on moviedb api url request form)
 
 // For this exercise, we'll be using the "now playing" API endpoint
 // https://api.themoviedb.org/3/movie/now_playing?api_key=${apiKey}&language=en-US
@@ -18,6 +18,14 @@ window.addEventListener('DOMContentLoaded', async function(event) {
   // console to ensure you've got good data
   // ⬇️ ⬇️ ⬇️
 
+  let db = firebase.firestore()
+  let url = 'https://api.themoviedb.org/3/movie/now_playing?api_key=afda5e4f5810947aeb8488e3460f6dcf&language=en-US'
+  let response = await fetch(url)
+  let json = await response.json()
+  let movies = json.results
+  console.dir(movies)
+  console.log(movies)
+  
   // ⬆️ ⬆️ ⬆️ 
   // End Step 1
   
@@ -33,6 +41,13 @@ window.addEventListener('DOMContentLoaded', async function(event) {
   //   <a href="#" class="watched-button block text-center text-white bg-green-500 mt-4 px-4 py-2 rounded">I've watched this!</a>
   // </div>
   // ⬇️ ⬇️ ⬇️
+
+  for (let i=0; i<movies.length; i++) {
+    let movieID = movies[i].id
+    let posterURL = movies[i].poster_path
+
+  }
+
 
   // ⬆️ ⬆️ ⬆️ 
   // End Step 2
