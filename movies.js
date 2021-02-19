@@ -19,8 +19,8 @@ window.addEventListener('DOMContentLoaded', async function(event) {
   // ⬇️ ⬇️ ⬇️
 
   let db = firebase.firestore()
-  let url = 'https://api.themoviedb.org/3/movie/now_playing?api_key=afda5e4f5810947aeb8488e3460f6dcf&language=en-US'
-  let response = await fetch(url)
+  let URL = 'https://api.themoviedb.org/3/movie/now_playing?api_key=afda5e4f5810947aeb8488e3460f6dcf&language=en-US'
+  let response = await fetch(URL)
   let json = await response.json()
   let movies = json.results
   console.dir(movies)
@@ -52,7 +52,7 @@ window.addEventListener('DOMContentLoaded', async function(event) {
     
     if (item) {
       document.querySelector('.movies').insertAdjacentHTML('beforeend',`
-      <div class="w-1/5 p-4 movie-${movieID}">
+      <div class="w-1/5 p-4 movies-${movieID} opacity-20">
       <img src="https://image.tmdb.org/t/p/w500/${posterURL}" class="w-full">
       <a href="#" class="watched-button block text-center text-white bg-green-500 mt-4 px-4 py-2 rounded">I've watched this!</a>
       </div>
@@ -61,14 +61,12 @@ window.addEventListener('DOMContentLoaded', async function(event) {
 
     else {
       document.querySelector('.movies').insertAdjacentHTML('beforeend',`
-      <div class="w-1/5 p-4 movie-${movieID}">
+      <div class="w-1/5 p-4 movies-${movieID}">
       <img src="https://image.tmdb.org/t/p/w500/${posterURL}" class="w-full">
       <a href="#" class="watched-button block text-center text-white bg-green-500 mt-4 px-4 py-2 rounded">I've watched this!</a>
       </div>
     `)
-    }
-  }
-
+    }  
 
   // ⬆️ ⬆️ ⬆️ 
   // End Step 2
@@ -84,6 +82,14 @@ window.addEventListener('DOMContentLoaded', async function(event) {
   //   the movie is watched. Use .classList.remove('opacity-20')
   //   to remove the class if the element already contains it.
   // ⬇️ ⬇️ ⬇️
+
+  document.querySelector(`.movies-${movieID}`).addEventListener('click', async function(event){
+    event.preventDefault()
+    document.querySelector(`.movies-${movieID}`).classList.add('opacity-20')
+    await db.collection('watched').doc(`${movieID}`).set({})
+    console.log(`Watched ${movieTitle}`)
+    })
+  }
 
   // ⬆️ ⬆️ ⬆️ 
   // End Step 3
